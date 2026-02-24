@@ -1,5 +1,26 @@
-fastapi==0.109.0
-uvicorn[standard]==0.27.0
-pydantic==2.6.0
-python-dotenv==1.0.0
-httpx==0.26.0
+# Core framework
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+pydantic>=2.5.0
+python-dotenv>=1.0.0
+
+# Lit Protocol integration
+# TODO: Add lit-protocol SDK when available
+# lit-protocol>=3.0.0
+
+# Storacha/Web3.Storage integration
+# TODO: Add w3up-client or similar
+# w3up-client>=?.
+
+# Filecoin/FEVM integration
+# web3>=6.0.0  # For FEVM smart contract interactions
+# lotus-py  # Alternative: direct Lotus API
+
+# Development
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+httpx>=0.25.0  # For testing FastAPI
+
+# Utilities
+python-multipart>=0.0.6  # For form data
+aiofiles>=23.2.0  # Async file operations
