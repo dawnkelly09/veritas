@@ -14,9 +14,9 @@ from pydantic import BaseSettings, Field
 class LitProtocolConfig(BaseSettings):
     """Lit Protocol (Vincent) configuration for key management and encryption."""
     
-    api_key: str = Field(..., env="LIT_PROTOCOL_API_KEY")
-    wallet_address: str = Field(..., env="VINCENT_WALLET_ADDRESS")
-    wallet_private_key: str = Field(..., env="VINCENT_WALLET_PRIVATE_KEY")
+    network: str = Field(default="nagaDev", env="LIT_NETWORK")
+    wallet_address: str = Field(..., env="WALLET_ADDRESS")
+    wallet_private_key: str = Field(..., env="WALLET_PRIVATE_KEY")
     
     class Config:
         env_file = ".env"
@@ -25,19 +25,19 @@ class LitProtocolConfig(BaseSettings):
 class StorachaConfig(BaseSettings):
     """Storacha UCAN-based storage configuration."""
     
-    ucan_token: str = Field(..., env="STORACHA_UCAN_TOKEN")
+    email: str = Field(..., env="STORACHA_EMAIL")
     space_did: str = Field(..., env="STORACHA_SPACE_DID")
+    delegation_proof: Optional[str] = Field(None, env="STORACHA_DELEGATION_PROOF")
     
     class Config:
         env_file = ".env"
 
 
 class FilecoinConfig(BaseSettings):
-    """Filecoin Calibration testnet configuration for on-chain anchoring."""
+    """Filecoin on-chain anchoring configuration."""
     
-    wallet_address: str = Field(..., env="FILECOIN_CALIBRATION_WALLET_ADDRESS")
-    private_key: str = Field(..., env="FILECOIN_CALIBRATION_PRIVATE_KEY")
-    rpc_url: str = Field(default="https://api.calibration.node.glif.io/rpc/v1", env="FILECOIN_RPC_URL")
+    wallet_address: str = Field(..., env="FILECOIN_WALLET_ADDRESS")
+    rpc_url: str = Field(default="https://api.node.glif.io/rpc/v1", env="FILECOIN_RPC_URL")
     anchor_contract: Optional[str] = Field(None, env="FILECOIN_ANCHOR_CONTRACT")
     
     class Config:
@@ -65,8 +65,9 @@ class AgentConfig(BaseSettings):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # Parse comma-separated locations
-        primary = os.getenv("BOOTSTRAP_PRIMARY_LOCATIONS", "")
-        fallback = os.getenv("BOOTSTRAP_FALLBACK_LOCATIONS", "")
+        # Default: Workspace is primary, Obsidian is interface/backup only
+        primary = os.getenv("BOOTSTRAP_PRIMARY_LOCATIONS", "/Users/trinity/.openclaw/workspace/memory/")
+        fallback = os.getenv("BOOTSTRAP_FALLBACK_LOCATIONS", "/Users/trinity/Documents/Trinity-Mind/OpenClaw Backup/")
         self.primary_locations = [p.strip() for p in primary.split(",") if p.strip()]
         self.fallback_locations = [p.strip() for p in fallback.split(",") if p.strip()]
 

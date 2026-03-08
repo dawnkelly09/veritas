@@ -27,6 +27,11 @@ async def run_bootstrap():
     
     Checks for context gaps by comparing last known state to current time,
     scanning all known storage locations.
+    
+    Architecture:
+    - Workspace is PRIMARY source of truth for Trinity's files
+    - Obsidian is INTERFACE + BACKUP (read Dawn's notes, backup before updates)
+    - Daily notes and working files stay in workspace
     """
     return BootstrapResponse(
         status="clean",
@@ -35,8 +40,8 @@ async def run_bootstrap():
         gaps_found=0,
         gaps=[],
         primary_locations_checked=[
-            "/Users/trinity/Documents/Trinity-Mind/01-Daily/",
-            "/Users/trinity/.openclaw/workspace/memory/"
+            "/Users/trinity/.openclaw/workspace/memory/",
+            "/Users/trinity/.openclaw/workspace/"
         ],
         fallback_locations_checked=[
             "/Users/trinity/Documents/Trinity-Mind/OpenClaw Backup/",
