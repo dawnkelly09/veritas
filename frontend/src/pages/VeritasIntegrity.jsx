@@ -19,9 +19,25 @@ function VeritasIntegrity() {
     validatorBlocks: 0,
   })
 
-  // TODO: Connect to backend API
+  // Fetch integrity from backend API
   useEffect(() => {
-    // fetch('/api/integrity').then(r => r.json()).then(setIntegrity)
+    fetch('/api/integrity')
+      .then(r => r.json())
+      .then(data => {
+        setIntegrity({
+          constitutionAnchored: data.constitution_anchored,
+          constitutionCID: data.constitution_cid,
+          anchorBlock: data.anchor_block,
+          litConnected: data.lit_connected,
+          storachaConnected: data.storacha_connected,
+          filecoinConnected: data.filecoin_connected,
+          guardianChecks: data.guardian_checks,
+          guardianBlocks: data.guardian_blocks,
+          validatorApprovals: data.validator_approvals,
+          validatorBlocks: data.validator_blocks,
+        })
+      })
+      .catch(err => console.error('Failed to fetch integrity:', err))
   }, [])
 
   return (
