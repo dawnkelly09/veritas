@@ -134,3 +134,154 @@
   background: var(--bg-secondary);
   border-color: var(--accent-primary);
 }
+
+/* Gap List Styles */
+.gap-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.gap-item {
+  padding: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  border-left: 4px solid var(--info);
+}
+
+.gap-item.info {
+  border-left-color: var(--info);
+}
+
+.gap-item.warning {
+  border-left-color: var(--warning);
+  background: rgba(245, 158, 11, 0.05);
+}
+
+.gap-item.critical {
+  border-left-color: var(--error);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.gap-item.acknowledged {
+  opacity: 0.7;
+}
+
+.gap-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.gap-dates {
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.gap-badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.gap-badge.info {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--info);
+}
+
+.gap-badge.warning {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--warning);
+}
+
+.gap-badge.critical {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--error);
+}
+
+.gap-badge.acknowledged {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--success);
+}
+
+.gap-location {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.gap-reason {
+  font-size: 0.85rem;
+  color: var(--accent-secondary);
+  font-style: italic;
+}
+
+/* Planned Absence Styles */
+.absence-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.absence-item {
+  padding: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.absence-item.active {
+  border-color: var(--accent-primary);
+  background: rgba(99, 102, 241, 0.05);
+}
+
+.absence-item.past {
+  opacity: 0.6;
+}
+
+.absence-dates {
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.absence-badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.absence-badge.active {
+  background: rgba(99, 102, 241, 0.15);
+  color: var(--accent-primary);
+}
+
+.absence-reason {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.absence-return {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* Error state */
+.subtitle.error {
+  color: var(--error);
+}
