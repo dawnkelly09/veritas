@@ -12,9 +12,20 @@ function TrinityStatus() {
     pendingAlerts: 0,
   })
 
-  // TODO: Connect to backend API
+  // Fetch status from backend API
   useEffect(() => {
-    // fetch('/api/status').then(r => r.json()).then(setStatus)
+    fetch('/api/status')
+      .then(r => r.json())
+      .then(data => {
+        setStatus({
+          lastMemoryWrite: data.last_memory_write,
+          bootstrapStatus: data.bootstrap_status,
+          gapsDetected: data.gaps_detected,
+          activeProjects: data.active_projects,
+          pendingAlerts: data.pending_alerts,
+        })
+      })
+      .catch(err => console.error('Failed to fetch status:', err))
   }, [])
 
   return (
