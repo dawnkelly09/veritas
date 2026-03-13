@@ -349,3 +349,84 @@ async def self_report_gap(period_start: str, period_end: str):
         "acknowledge_url": f"/api/bootstrap/acknowledge",
         "timestamp": datetime.now().isoformat()
     }
+
+
+class MemoryEntry(BaseModel):
+    date: str
+    note: str
+    status: str
+
+class MemoryResponse(BaseModel):
+    entries: List[MemoryEntry]
+    total: int
+
+
+def extract_note_preview(file_path: Path) -> str:
+    """Extract first meaningful line from a daily note for preview."""
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+            
+        # Look for session context or first non-header line
+        lines = content.split('\n')
+        for line in lines:
+            line = line.strip()
+            # Skip empty lines, headers, and metadata
+            if not line or line.startswith('#') or line.startswith('- **'):
+                continue
+            # Skip "Session" and "Notes" section headers
+            if line in ['Session', 'Notes', 'Intentions']:
+                continue
+            if line.startswith('- ') and len(line) > 2:
+                return line[2:100]  # Remove bullet, limit length
+            if len(line) > 5:
+                return line[:100]
+        
+        return "Daily note recorded"
+    except Exception as e:
+        return "Note available"
+
+
+@router.get("/memory", response_model=MemoryResponse)
+async def get_recent_memory(limit: int = 10):
+    """Get recent daily notes for memory timeline display."""
+    primary_path = PRIMARY_LOCATIONS[0]
+    dates_found = scan_daily_notes(primary_path)
+    
+    # Sort descending (most recent first) and take limit
+    recent_dates = sorted(dates_found, reverse=True)[:limit]
+    
+    entries = []
+    today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    
+    for i, date in enumerate(recent_dates):
+        date_str = date.strftime("%Y-%m-%d")
+        file_path = Path(primary_path) / f"{date_str}.md"
+        
+        # Determine status based on continuity
+        if i == 0:
+            # Most recent entry
+            status = "ok"
+        else:
+            prev_date = recent_dates[i - 1]
+            expected_gap = (prev_date - date).days
+            if expected_gap == 1:
+                status = "ok"  # Continuous
+            elif expected_gap <= 3:
+                status = "warning"  # Small gap
+            else:
+                status = "error"  # Large gap
+        
+        # Extract preview from file
+        note = extract_note_preview(file_path) if file_path.exists() else "Daily note"
+        
+        entries.append(MemoryEntry(
+            date=date_str,
+            note=note,
+            status=status
+        ))
+    
+    return MemoryResponse(
+        entries=entries,
+        total=len(entries)
+    )

@@ -28,7 +28,7 @@ from typing import Optional, Dict, Any
 # TODO: Install lit-protocol package
 # from lit_protocol import LitNodeClient
 
-from backend.config import get_lit_config
+from config import get_lit_config
 
 
 class LitClient:

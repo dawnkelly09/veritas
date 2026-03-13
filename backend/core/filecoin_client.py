@@ -29,7 +29,7 @@ from typing import Optional, Dict, Any
 # Could use: lotus-py, web3.py for FEVM, or Glif API
 # from web3 import Web3
 
-from backend.config import get_filecoin_config
+from config import get_filecoin_config
 
 
 class FilecoinClient:

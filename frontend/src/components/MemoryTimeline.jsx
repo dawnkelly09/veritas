@@ -1,10 +1,53 @@
+import { useState, useEffect } from 'react'
+
 function MemoryTimeline() {
-  // TODO: Fetch from backend - list of recent memory entries
-  const memories = [
-    { date: '2026-02-21', note: 'Memory gap discovery, Veritas repo setup', status: 'ok' },
-    { date: '2026-02-16', note: 'Budtender project work', status: 'warning' },
-    { date: '2026-02-15', note: 'Initial setup, Gmail connected', status: 'ok' },
-  ]
+  const [memories, setMemories] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    fetch('/api/bootstrap/memory?limit=10')
+      .then(r => {
+        if (!r.ok) throw new Error('Failed to fetch memory data')
+        return r.json()
+      })
+      .then(data => {
+        setMemories(data.entries || [])
+        setLoading(false)
+      })
+      .catch(err => {
+        console.error('Failed to fetch memory:', err)
+        setError(err.message)
+        setLoading(false)
+      })
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="card memory-timeline">
+        <h3>Recent Memory Entries</h3>
+        <div className="timeline-loading">Loading memory entries...</div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="card memory-timeline">
+        <h3>Recent Memory Entries</h3>
+        <div className="timeline-error">Error loading memory: {error}</div>
+      </div>
+    )
+  }
+
+  if (memories.length === 0) {
+    return (
+      <div className="card memory-timeline">
+        <h3>Recent Memory Entries</h3>
+        <div className="timeline-empty">No memory entries found</div>
+      </div>
+    )
+  }
 
   return (
     <div className="card memory-timeline">

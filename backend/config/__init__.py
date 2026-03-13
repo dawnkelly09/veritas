@@ -8,15 +8,16 @@ All sensitive values come from .env file (never committed).
 import os
 from pathlib import Path
 from typing import List, Optional
-from pydantic import BaseSettings, Field
+from pydantic import Field
+from pydantic_settings import BaseSettings
 
 
 class LitProtocolConfig(BaseSettings):
     """Lit Protocol (Vincent) configuration for key management and encryption."""
     
     network: str = Field(default="nagaDev", env="LIT_NETWORK")
-    wallet_address: str = Field(..., env="WALLET_ADDRESS")
-    wallet_private_key: str = Field(..., env="WALLET_PRIVATE_KEY")
+    wallet_address: str = Field(default="0xMockWallet", env="WALLET_ADDRESS")
+    wallet_private_key: str = Field(default="mock_key", env="WALLET_PRIVATE_KEY")
     
     class Config:
         env_file = ".env"
@@ -25,9 +26,9 @@ class LitProtocolConfig(BaseSettings):
 class StorachaConfig(BaseSettings):
     """Storacha UCAN-based storage configuration."""
     
-    email: str = Field(..., env="STORACHA_EMAIL")
-    space_did: str = Field(..., env="STORACHA_SPACE_DID")
-    delegation_proof: Optional[str] = Field(None, env="STORACHA_DELEGATION_PROOF")
+    email: str = Field(default="trinity@veritas.local", env="STORACHA_EMAIL")
+    space_did: str = Field(default="did:key:zMockSpace", env="STORACHA_SPACE_DID")
+    delegation_proof: Optional[str] = Field(default=None, env="STORACHA_DELEGATION_PROOF")
     
     class Config:
         env_file = ".env"
@@ -36,9 +37,9 @@ class StorachaConfig(BaseSettings):
 class FilecoinConfig(BaseSettings):
     """Filecoin on-chain anchoring configuration."""
     
-    wallet_address: str = Field(..., env="FILECOIN_WALLET_ADDRESS")
+    wallet_address: str = Field(default="f1mockwalletaddress", env="FILECOIN_WALLET_ADDRESS")
     rpc_url: str = Field(default="https://api.node.glif.io/rpc/v1", env="FILECOIN_RPC_URL")
-    anchor_contract: Optional[str] = Field(None, env="FILECOIN_ANCHOR_CONTRACT")
+    anchor_contract: Optional[str] = Field(default=None, env="FILECOIN_ANCHOR_CONTRACT")
     
     class Config:
         env_file = ".env"
@@ -48,8 +49,8 @@ class AgentConfig(BaseSettings):
     """Agent identity and bootstrap configuration."""
     
     name: str = Field(default="Trinity", env="AGENT_NAME")
-    agent_id: str = Field(..., env="AGENT_ID")
-    human_owner: str = Field(..., env="HUMAN_OWNER")
+    agent_id: str = Field(default="trinity-veritas-001", env="AGENT_ID")
+    human_owner: str = Field(default="Dawn Kelly", env="HUMAN_OWNER")
     
     # Bootstrap locations (comma-separated in env)
     primary_locations: List[str] = Field(default_factory=list)

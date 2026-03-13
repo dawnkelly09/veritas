@@ -26,7 +26,7 @@ from typing import Optional, Dict, Any
 # TODO: Install @web3-storage/w3up-client or similar
 # from w3up_client import Client
 
-from backend.config import get_storacha_config
+from config import get_storacha_config
 
 
 class StorachaClient:

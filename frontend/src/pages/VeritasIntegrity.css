@@ -158,3 +158,53 @@
   font-size: 0.8rem;
   max-width: 300px;
 }
+
+/* Mock mode banner */
+.mock-banner {
+  background: var(--warning-bg, #fff3cd);
+  border: 1px solid var(--warning-border, #ffc107);
+  color: var(--warning-text, #856404);
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+}
+
+/* Anchor action section */
+.anchor-action {
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.anchor-action .btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.anchor-action .btn-primary {
+  background: var(--accent-primary);
+  color: white;
+}
+
+.anchor-action .btn-primary:hover:not(:disabled) {
+  background: var(--accent-primary-hover);
+}
+
+.anchor-action .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.anchor-action .help-text {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}

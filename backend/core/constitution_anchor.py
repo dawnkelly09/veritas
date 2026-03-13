@@ -16,10 +16,10 @@ FLOW:
 from typing import Optional, Dict, Any, Tuple
 from datetime import datetime
 
-from backend.core.lit_client import LitClient
-from backend.core.storacha_client import StorachaClient
-from backend.core.filecoin_client import FilecoinClient
-from backend.config import get_agent_config
+from core.lit_client import LitClient
+from core.storacha_client import StorachaClient
+from core.filecoin_client import FilecoinClient
+from config import get_agent_config
 
 
 class ConstitutionAnchor:
